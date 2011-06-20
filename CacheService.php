@@ -59,7 +59,7 @@ class CacheFactory
 			if (!isset($options['cacheDir'])) {
 				throw new \InvalidArgumentException('The parameter "cacheDir" must be defined when using the File driver.');
 			}
-			$cache->setCacheDir($option['cacheDir']);
+			$cache->setCacheDir($options['cacheDir']);
 		}
 		
 		if ($driver == 'Memcache') {
@@ -68,7 +68,7 @@ class CacheFactory
 			if (!isset($options['memcache'])) {
 				throw new \InvalidArgumentException('The parameter "memcache" must be defined when using the Memcache driver.');
 			}
-			$cache->setMemcache($option['memcache']);
+			$cache->setMemcache($options['memcache']);
 		}
 		
 		return $cache;

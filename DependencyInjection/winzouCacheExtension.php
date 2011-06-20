@@ -41,6 +41,10 @@ class winzouCacheExtension extends Extension
 
         $config = $processor->process($configuration->getConfigTree(), $configs);
         
+        if (!isset($config['options']['cache_dir'])) {
+            $config['options']['cache_dir'] = $container->getParameter('kernel.root_dir').'/cache/'.$container->getParameter('kernel.environment').'/winzou_cache';
+        }
+        
         $this->bindParameter($container, 'winzou_cache', $config);
         
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));

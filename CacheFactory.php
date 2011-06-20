@@ -40,6 +40,7 @@ class CacheFactory
 	 *
 	 * @param string $driver The cache driver to use
 	 * @param array $options Options to pass to the driver
+	 * @return Cache\AbstractCache
 	 */
 	public function build($driver, array $options = array(), $byPassCheck = true)
 	{
@@ -51,13 +52,15 @@ class CacheFactory
 			throw new \InvalidArgumentException('The cache driver "'.$driver.'" is not supported by your current configuration.');
 		}
 		
-		$cache = new $driver;
+		$class = 'Cache\\'.$driver.'Cache';
+		$cache = new Cache\FileCache;
+		//$cache = new $class;
 		
 		if ($driver == 'File') {
 			$options = array_merge($this->options, $options);
 			
 			if (!isset($options['cacheDir'])) {
-				throw new \InvalidArgumentException('The parameter "cacheDir" must be defined when using the File driver.');
+				throw new \Exception('The parameter "cacheDir" must be defined when using the File driver.');
 			}
 			$cache->setCacheDir($options['cacheDir']);
 		}

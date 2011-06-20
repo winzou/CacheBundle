@@ -44,8 +44,8 @@ class FileCache extends AbstractCache
         }
         
         if (in_array(substr($cacheDir, -1), array('\\', '/'))) {
-            $cacheDir = substr($cacheDir, 0, -1):
-        }    
+            $cacheDir = substr($cacheDir, 0, -1);
+        }
         
         $this->cacheDir = $cacheDir;
     }

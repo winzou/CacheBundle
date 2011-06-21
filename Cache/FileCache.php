@@ -22,14 +22,14 @@ namespace winzou\CacheBundle\Cache;
 /**
  * File cache driver.
  *
- * @author  winzou
+ * @author winzou
  */
 class FileCache extends AbstractCache
 {
     /** @var string $cacheDir */
     private $cacheDir = '.';
 	
-	/** @var string $separator */
+    /** @var string $separator */
     private $separator = '--s--';
     
     /**
@@ -50,7 +50,7 @@ class FileCache extends AbstractCache
         $this->cacheDir = $cacheDir;
     }
     
-	/**
+    /**
      * Get the file name from a cache id.
      *
      * @param string $id
@@ -63,14 +63,14 @@ class FileCache extends AbstractCache
             .'.php';
     }
 	
-	/**
+    /**
      * Get the cache id from a file name.
      *
      * @param string $file
      */
     private function getKeyName($file)
     {
-        return str_replace($this->separator, DIRECTORY_SEPARATOR, substr(basename($file),0,-4));
+        return str_replace($this->separator, DIRECTORY_SEPARATOR, substr(basename($file), 0, -4));
     }
     
     /**

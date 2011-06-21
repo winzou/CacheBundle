@@ -8,12 +8,6 @@ It supports Apc, XCache, File, ZendData and Array.
 
 Usage
 -----
-config.yml:
-
-    winzou_cache:
-        options:
-            cache_dir: winzou_cache
-
 In your controller:
 
     $cache = $this->get('winzou_cache.apc');
@@ -26,3 +20,11 @@ In your controller:
     $bar = $cache->fetch('bar');
 
 See Cache\AbstractCache for all the available methods.
+
+Configuration
+-------------
+When using FileCache, if you don't want to store your cache files in `ROOT_DIR/cache/ENV/winzou_cache`, then define the absolute path in your config.yml:
+
+    winzou_cache:
+        options:
+            cache_dir: %kernel.root_dir%/cache/%kernel.environment%/your_directory

@@ -30,6 +30,7 @@ use \Memcache;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  * @author  David Abdemoulaie <dave@hobodave.com>
+ * @author  winzou
  */
 class MemcacheCache extends AbstractCache
 {
@@ -37,6 +38,20 @@ class MemcacheCache extends AbstractCache
      * @var Memcache
      */
     private $_memcache;
+
+    /**
+     * Constructor, set the memcache instance.
+     *
+     * @param Memcache $memcache
+     */
+    public function __construct(Memcache $memcache = null)
+    {
+        if (!$memcache instanceof Memcache) {
+            $memcache = new Memcache;
+        }
+
+        $this->setMemcache($memcache);
+    }
 
     /**
      * Sets the memcache instance to use.

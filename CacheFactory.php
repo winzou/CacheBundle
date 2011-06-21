@@ -23,15 +23,21 @@ use winzou\CacheBundle\Cache;
 
 class CacheFactory
 {
+    /** @var array $drivers */
+    private $drivers;
+    
+    /** @var array $options */
 	private $options;
 	
 	/**
 	 * Constructor.
 	 *
+	 * @param array $drivers The list of available drivers, key=driver name, value=driver class
 	 * @param array $options Options to pass to the driver
 	 */
-	public function __construct(array $options = array())
+	public function __construct(array $drivers, array $options = array())
 	{
+	    $this->drivers = $drivers;
 		$this->options = $options;
 	}
 	
@@ -40,6 +46,7 @@ class CacheFactory
 	 *
 	 * @param string $driver The cache driver to use
 	 * @param array $options Options to pass to the driver
+	 * @param bool $byPassCheck If you want to perform a (slow) check, set false (but you should know in advance which driver is supporteed by your configuration)
 	 * @return Cache\AbstractCache
 	 */
 	public function get($driver, array $options = array(), $byPassCheck = true)
@@ -52,9 +59,9 @@ class CacheFactory
 			throw new \InvalidArgumentException('The cache driver "'.$driver.'" is not supported by your current configuration.');
 		}
 		
-		$class = 'Cache\\'.$driver.'Cache';
+		$class = $this->drivers[$driver];
 		
-		if ($driver == 'File') {
+		if ($driver == 'file') {
 			$options = array_merge($this->options, $options);
 			
 			if (!isset($options['cache_dir'])) {
@@ -63,7 +70,7 @@ class CacheFactory
 			return new $class($options['cache_dir']);
 		}
 		
-		if ($driver == 'Memcache') {
+		if ($driver == 'memcache') {
 			$options = array_merge($this->options, $options);
 		
 			if (!isset($options['memcache'])) {
@@ -83,7 +90,7 @@ class CacheFactory
 	 */
 	public function driverExists($driver)
 	{
-		return in_array($driver, array('File', 'ZendData', 'Memcache', 'Apc', 'Array', 'Xcache'));
+		return isset($this->drivers);
 	}
 	
 	/**
@@ -96,24 +103,24 @@ class CacheFactory
 	{
 		switch($driver)
 		{
-			case 'File':
-			case 'Array':
+			case 'file':
+			case 'array':
 				return true;
 				break;
 			
-			case 'ZendData':
+			case 'zendData':
 				return function_exists('zend_shm_cache_fetch');
 				break;
 			
-			case 'Memcache':
+			case 'memcache':
 				return class_exists('Memcache');
 				break;
 			
-			case 'Apc':
+			case 'apc':
 				return function_exists('apc_fetch');
 				break;
 			
-			case 'Xcache':
+			case 'xcache':
 				return function_exists('xcache_get');
 				break;
 		}

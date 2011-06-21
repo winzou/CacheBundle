@@ -49,6 +49,10 @@ class FileCache extends AbstractCache
      */
     public function setCacheDir($cacheDir)
     {
+        if (!$cacheDir) {
+            throw new \InvalidArgumentException('The parameter $cacheDir must not be empty.');
+        }
+        
         if (!is_dir($cacheDir) && !mkdir($cacheDir, 777)) {
             throw new \Exception('Unable to create the directory "'.$cacheDir.'"');
         }

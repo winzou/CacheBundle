@@ -1,17 +1,9 @@
-parameters:
-    winzou_cache.factory.class:         winzou\CacheBundle\CacheFactory
-
-    winzou_cache.driver.apc:      winzou\CacheBundle\Cache\ApcCache
-    winzou_cache.driver.array:    winzou\CacheBundle\Cache\ArrayCache
-    winzou_cache.driver.file:     winzou\CacheBundle\Cache\FileCache
-    winzou_cache.driver.memcache: winzou\CacheBundle\Cache\MemcacheCache
-    winzou_cache.driver.xcache:   winzou\CacheBundle\Cache\XcacheCache
-    winzou_cache.driver.zenddata: winzou\CacheBundle\Cache\ZendDataCache
-
 services:
     winzou_cache.factory:
         class:     %winzou_cache.factory.class%
-        arguments: [ {'cache_dir': %winzou_cache.options.cache_dir% } ]
+        arguments:
+            - %winzou_cache.internal.drivers%
+            - { 'cache_dir': %winzou_cache.options.cache_dir% }
 
     winzou_cache:
         factory_service: winzou_cache.factory

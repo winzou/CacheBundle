@@ -54,8 +54,8 @@ class Configuration
                 ->arrayNode('options')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('cache_dir')->defaultValue('winzou_cache')->end()
-                        ->scalarNode('default_driver')->defaultValue('File')->end()
+                        ->scalarNode('cache_dir')->defaultValue('%kernel.cache_dir%/winzou_cache')->end()
+                        ->scalarNode('default_driver')->defaultValue('file')->end()
                      ->end()
                 ->end()
             ->end();

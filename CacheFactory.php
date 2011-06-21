@@ -53,16 +53,14 @@ class CacheFactory
 		}
 		
 		$class = 'Cache\\'.$driver.'Cache';
-		$cache = new Cache\FileCache;
-		//$cache = new $class;
 		
 		if ($driver == 'File') {
 			$options = array_merge($this->options, $options);
 			
-			if (!isset($options['cacheDir'])) {
-				throw new \Exception('The parameter "cacheDir" must be defined when using the File driver.');
+			if (!isset($options['cache_dir'])) {
+				throw new \InvalidArgumentException('The parameter "cache_dir" must be defined when using the File driver.');
 			}
-			$cache->setCacheDir($options['cacheDir']);
+			return new $class($options['cache_dir']);
 		}
 		
 		if ($driver == 'Memcache') {
@@ -71,10 +69,10 @@ class CacheFactory
 			if (!isset($options['memcache'])) {
 				throw new \InvalidArgumentException('The parameter "memcache" must be defined when using the Memcache driver.');
 			}
-			$cache->setMemcache($options['memcache']);
+			return new $class($options['memcache']);
 		}
 		
-		return $cache;
+		return new $class;
 	}
 	
 	/**

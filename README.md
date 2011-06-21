@@ -10,18 +10,19 @@ Usage
 -----
 config.yml:
 
-        winzou_cache:
-            driver:
-                default: File
-            options:
-                cache_dir: winzou_cache
+    winzou_cache:
+        options:
+            cache_dir: winzou_cache
 
 In your controller:
 
-        $cache = $this->get('winzou_cache.cache');
-        
-        $cache->save('bar', array('foo', 'bar'));
-        
-        $bar = $cache->fetch('bar');
+    $cache = $this->get('winzou_cache.apc');
+    // or
+    $cache = $this->get('winzou_cache.file');
+    // or
+    $cache = $this->get('winzou_cache.memcache');
+
+    $cache->save('bar', array('foo', 'bar'));
+    $bar = $cache->fetch('bar');
 
 See Cache\AbstractCache for all the available methods.

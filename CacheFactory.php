@@ -42,7 +42,7 @@ class CacheFactory
 	 * @param array $options Options to pass to the driver
 	 * @return Cache\AbstractCache
 	 */
-	public function build($driver, array $options = array(), $byPassCheck = true)
+	public function get($driver, array $options = array(), $byPassCheck = true)
 	{
 		if (!$this->driverExists($driver)) {
 			throw new \InvalidArgumentException('The cache driver "'.$driver.'" is not supported by winzouCacheBundle.');

@@ -13,6 +13,12 @@ services:
         class:     %winzou_cache.factory.class%
         arguments: [ {'cache_dir': %winzou_cache.options.cache_dir% } ]
 
+    winzou_cache:
+        factory_service: winzou_cache.factory
+        factory_method:  get
+        arguments:
+            - %winzou_cache.options.default_driver%
+
     winzou_cache.apc:
         class: %winzou_cache.driver.apc_class%
 

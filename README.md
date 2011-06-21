@@ -60,7 +60,7 @@ Or by defining your own service:
         factory_method:  get
         class:           %winzou_cache.driver.file%
         arguments:
-            - File
+            - file
             - [ {'cache_dir': /tmp/cache} ]
     
     # and then $cache = $this->get('your_cache')

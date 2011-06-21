@@ -1,12 +1,12 @@
 parameters:
     winzou_cache.factory.class:         winzou\CacheBundle\CacheFactory
 
-    winzou_cache.driver.apc_class:      winzou\CacheBundle\Cache\ApcCache
-    winzou_cache.driver.array_class:    winzou\CacheBundle\Cache\ArrayCache
-    winzou_cache.driver.file_class:     winzou\CacheBundle\Cache\FileCache
-    winzou_cache.driver.memcache_class: winzou\CacheBundle\Cache\MemcacheCache
-    winzou_cache.driver.xcache_class:   winzou\CacheBundle\Cache\XcacheCache
-    winzou_cache.driver.zenddata_class: winzou\CacheBundle\Cache\ZendDataCache
+    winzou_cache.driver.apc:      winzou\CacheBundle\Cache\ApcCache
+    winzou_cache.driver.array:    winzou\CacheBundle\Cache\ArrayCache
+    winzou_cache.driver.file:     winzou\CacheBundle\Cache\FileCache
+    winzou_cache.driver.memcache: winzou\CacheBundle\Cache\MemcacheCache
+    winzou_cache.driver.xcache:   winzou\CacheBundle\Cache\XcacheCache
+    winzou_cache.driver.zenddata: winzou\CacheBundle\Cache\ZendDataCache
 
 services:
     winzou_cache.factory:
@@ -21,21 +21,21 @@ services:
             - %winzou_cache.options.default_driver%
 
     winzou_cache.apc:
-        class: %winzou_cache.driver.apc_class%
+        class: %winzou_cache.driver.apc%
 
     winzou_cache.array:
-        class: %winzou_cache.driver.array_class%
+        class: %winzou_cache.driver.array%
 
     winzou_cache.file:
-        class: %winzou_cache.driver.file_class%
+        class: %winzou_cache.driver.file%
         arguments:
             - %winzou_cache.options.cache_dir%
 
     winzou_cache.memcache:
-        class: %winzou_cache.driver.memcache_class%
+        class: %winzou_cache.driver.memcache%
 
     winzou_cache.xcache:
-        class: %winzou_cache.driver.xcache_class%
+        class: %winzou_cache.driver.xcache%
 
     winzou_cache.zenddata:
-        class: %winzou_cache.driver.zenddata_class%
+        class: %winzou_cache.driver.zenddata%

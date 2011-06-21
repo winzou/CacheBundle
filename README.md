@@ -25,7 +25,10 @@ In your controller:
     $cache = $this->get('winzou_cache'); // in that case, it will use the default driver defined in config.yml, see below
 
     $cache->save('bar', array('foo', 'bar'));
-    $bar = $cache->fetch('bar');
+    
+    if ($cache->contains('bar')) {
+        $bar = $cache->fetch('bar');
+    }
 
 See Cache\AbstractCache for all the available methods.
 
@@ -43,6 +46,8 @@ If you want to define in only one place the driver you want to use, you will lik
     winzou_cache:
         options:
             default_driver: apc # default is "file"
+    
+    # and then $cache = $this->get('winzou_cache')
 
 You can now access the FileCache with the `winzou_cache` service. And if you want to change the driver, you have to modify only one value in your config.yml.
 
@@ -61,6 +66,6 @@ Or by defining your own service:
         class:           %winzou_cache.driver.file%
         arguments:
             - file
-            - [ {'cache_dir': /tmp/cache} ]
+            - {'cache_dir': /tmp/cache }
     
     # and then $cache = $this->get('your_cache')

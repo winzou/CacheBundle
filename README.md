@@ -15,6 +15,12 @@ In your controller:
     $cache = $this->get('winzou_cache.file');
     // or
     $cache = $this->get('winzou_cache.memcache');
+    // or
+    $cache = $this->get('winzou_cache.array');
+    // or
+    $cache = $this->get('winzou_cache.xcache');
+    // or
+    $cache = $this->get('winzou_cache.zenddata');
 
     $cache->save('bar', array('foo', 'bar'));
     $bar = $cache->fetch('bar');
@@ -27,4 +33,5 @@ When using FileCache, if you don't want to store your cache files in `ROOT_DIR/c
 
     winzou_cache:
         options:
-            cache_dir: %kernel.root_dir%/cache/%kernel.environment%/your_directory
+            cache_dir: %kernel.root_dir%/cache/%kernel.environment%/MyAppCache
+    # or    cache_dir: /tmp/MyAppCache/%kernel.environment%

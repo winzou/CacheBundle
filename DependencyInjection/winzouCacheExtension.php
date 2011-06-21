@@ -41,9 +41,16 @@ class winzouCacheExtension extends Extension
 
         $config = $processor->process($configuration->getConfigTree(), $configs);
         
+        // if the cache_dir parameter is not defined, we force it to be ROOT/cache/ENV/winzou_cache
         if (!isset($config['options']['cache_dir'])) {
             $config['options']['cache_dir'] = $container->getParameter('kernel.root_dir').'/cache/'.$container->getParameter('kernel.environment').'/winzou_cache';
         }
+
+        // we check if the default_driver value is ok
+        if (!isset($config['driver'][strtolower($config['options']['default_driver'])])) {
+            throw new \InvalidArgumentException('The parameter winzou_book.options.default_driver[value="'.$config['options']['default_driver'].'"] is invalid.');
+        }
+        $config['internal']['default_driver_class'] = $config['driver'][strtolower($config['options']['default_driver'])];
         
         $this->bindParameter($container, 'winzou_cache', $config);
         

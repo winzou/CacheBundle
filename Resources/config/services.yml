@@ -16,6 +16,7 @@ services:
     winzou_cache:
         factory_service: winzou_cache.factory
         factory_method:  get
+        class:           %winzou_cache.internal.default_driver_class%
         arguments:
             - %winzou_cache.options.default_driver%
 

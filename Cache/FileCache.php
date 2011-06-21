@@ -27,10 +27,20 @@ namespace winzou\CacheBundle\Cache;
 class FileCache extends AbstractCache
 {
     /** @var string $cacheDir */
-    private $cacheDir = '.';
+    private $cacheDir;
 	
     /** @var string $separator */
     private $separator = '--s--';
+
+    /**
+     * Constructor, set the cache directory.
+     *
+     * @param string $cacheDir
+     */
+    public function __construct($cacheDir)
+    {
+        $this->setCacheDir($cacheDir);
+    }
     
     /**
      * Set the cache directory to use.

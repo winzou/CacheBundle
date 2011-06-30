@@ -32,11 +32,19 @@ abstract class AbstractCache implements CacheInterface
     /** @var string The namespace to prefix all cache ids with */
     private $_namespace = '';
 
+	/**
+     * Constructor, set the required options.
+     *
+     * @param array $options
+     */
+    public function __construct(array $options = array())
+	{
+	}
+	
     /**
      * Set the namespace to prefix all cache ids with.
      *
      * @param string $namespace
-     * @return void
      */
     public function setNamespace($namespace)
     {

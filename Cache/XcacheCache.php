@@ -97,4 +97,12 @@ class XcacheCache extends AbstractCache
             throw new \BadMethodCallException('To use all features of \Doctrine\Common\Cache\XcacheCache, you must set "xcache.admin.enable_auth" to "Off" in your php.ini.');
         }
     }
+	
+	/**
+     * {@inheritdoc}
+     */
+	public static function isSupported()
+	{
+		return function_exists('xcache_get');
+	}
 }

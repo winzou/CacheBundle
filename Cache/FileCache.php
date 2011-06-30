@@ -26,20 +26,22 @@ namespace winzou\CacheBundle\Cache;
  */
 class FileCache extends AbstractCache
 {
-    /** @var string $cacheDir */
-    private $cacheDir;
+    /** @var string $_cacheDir */
+    private $_cacheDir;
 	
     /** @var string $separator */
-    private $separator = '--s--';
+    private $_separator = '--s--';
 
     /**
-     * Constructor, set the cache directory.
-     *
-     * @param string $cacheDir
+     * {@inheritdoc}
      */
-    public function __construct($cacheDir)
+    public function __construct(array $options = array())
     {
-        $this->setCacheDir($cacheDir);
+		// Cache directory is required
+        if (!isset($options['cache_dir'])) {
+            throw new \InvalidArgumentException('The option "cache_dir" must be passed to the FileCache constructor.');
+        }
+        $this->setCacheDir($options['cache_dir']);
     }
     
     /**
@@ -54,14 +56,14 @@ class FileCache extends AbstractCache
         }
         
         if (!is_dir($cacheDir) && !mkdir($cacheDir, 777)) {
-            throw new \Exception('Unable to create the directory "'.$cacheDir.'"');
+            throw new \RuntimeException('Unable to create the directory "'.$cacheDir.'"');
         }
         
         if (in_array(substr($cacheDir, -1), array('\\', '/'))) {
             $cacheDir = substr($cacheDir, 0, -1);
         }
         
-        $this->cacheDir = $cacheDir;
+        $this->_cacheDir = $cacheDir;
     }
     
     /**
@@ -71,9 +73,9 @@ class FileCache extends AbstractCache
      */
     private function getFileName($id)
     {
-        return $this->cacheDir
+        return $this->_cacheDir
             .DIRECTORY_SEPARATOR
-            .str_replace(DIRECTORY_SEPARATOR, $this->separator, $id)
+            .str_replace(DIRECTORY_SEPARATOR, $this->_separator, $id)
             .'.php';
     }
 	
@@ -84,7 +86,7 @@ class FileCache extends AbstractCache
      */
     private function getKeyName($file)
     {
-        return str_replace($this->separator, DIRECTORY_SEPARATOR, substr(basename($file), 0, -4));
+        return str_replace($this->_separator, DIRECTORY_SEPARATOR, substr(basename($file), 0, -4));
     }
     
     /**
@@ -92,7 +94,7 @@ class FileCache extends AbstractCache
      */
     public function getIds()
     {
-        $keys = glob($this->cacheDir.DIRECTORY_SEPARATOR.'*');
+        $keys = glob($this->_cacheDir.DIRECTORY_SEPARATOR.'*');
         $keys = array_map(array($this, 'getKeyName'), $keys);
         
         return $keys;
@@ -129,4 +131,12 @@ class FileCache extends AbstractCache
     {
         return unlink($this->getFileName($id));
     }
+	
+	/**
+     * {@inheritdoc}
+     */
+	public static function isSupported()
+	{
+		return function_exists('file_put_contents');
+	}
 }

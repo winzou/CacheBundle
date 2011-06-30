@@ -19,7 +19,8 @@
 
 namespace winzou\CacheBundle;
 
-use winzou\CacheBundle\Cache;
+use winzou\CacheBundle\Cache\AbstractCache;
+use winzou\CacheBundle\Cache\CacheInterface;
 
 class CacheFactory
 {
@@ -28,6 +29,9 @@ class CacheFactory
     
     /** @var array $options */
 	private $options;
+	
+	/** @var int $exceptionCode */
+	const EXCEPTION_CODE = 999;
 	
 	/**
 	 * Constructor.
@@ -46,40 +50,67 @@ class CacheFactory
 	 *
 	 * @param string $driver The cache driver to use
 	 * @param array $options Options to pass to the driver
-	 * @param bool $byPassCheck If you want to perform a (slow) check, set false (but you should know in advance which driver is supporteed by your configuration)
-	 * @return Cache\AbstractCache
+	 * @param bool $byPassCheck If you want to perform a configuration check, set false (but you should know in advance which driver is supporteed by your configuration)
+	 * @return AbstractCache
 	 */
-	public function get($driver, array $options = array(), $byPassCheck = true)
+	public function getCache($driver, array $options = array(), $byPassCheck = true)
 	{
 		if (!$this->driverExists($driver)) {
-			throw new \InvalidArgumentException('The cache driver "'.$driver.'" is not supported by winzouCacheBundle.');
-		}
-		
-		if (!$byPassCheck && !$this->driverSupported($driver)) {
-			throw new \InvalidArgumentException('The cache driver "'.$driver.'" is not supported by your current configuration.');
+			throw new \Exception('The cache driver "'.$driver.'" is not supported by the bundle.', self::EXCEPTION_CODE);
 		}
 		
 		$class = $this->drivers[$driver];
 		
-		if ($driver == 'file') {
-			$options = array_merge($this->options, $options);
-			
-			if (!isset($options['cache_dir'])) {
-				throw new \InvalidArgumentException('The parameter "cache_dir" must be defined when using the File driver.');
-			}
-			return new $class($options['cache_dir']);
+		if (!$byPassCheck && !$class::isSupported()) {
+			throw new \Exception('The cache driver "'.$driver.'" is not supported by your running configuration.', self::EXCEPTION_CODE);
 		}
 		
-		if ($driver == 'memcache') {
-			$options = array_merge($this->options, $options);
+		$options = array_merge($this->options, $options);
 		
-			if (!isset($options['memcache'])) {
-				throw new \InvalidArgumentException('The parameter "memcache" must be defined when using the Memcache driver.');
-			}
-			return new $class($options['memcache']);
+		$cache = new $class($options);
+		
+		if (!$cache instanceof CacheInterface) {
+			throw new \Exception('The cache driver "'.$driver.'" must implement CacheInterface.');
 		}
 		
-		return new $class;
+		return $cache;
+	}
+	
+	/**
+	 * Try to initialise any of the requested driver, check if it exists and it's supported. Fallback to File
+	 *
+	 * @param array|string $drivers The ordered list of drivers to try, can be a string if only one
+	 * @param array $options Options to pass to the driver
+	 * @return Cache\AbstractCache
+	 */
+	public function getCacheFallback($drivers, array $options = array())
+	{
+		// allow single driver
+		if (!is_array($drivers)) {
+			$drivers = array($drivers);
+		}
+		
+		// fallback to file, this one should work
+		// we are sure that array will work, but as it's not a persistent driver, we prefer throw an Exception
+		$drivers[] = 'file';
+		
+		foreach ($drivers as $driver) {
+			try {
+				$cache = $this->getCache($driver, $options, false);
+			} catch (\Exception $e) {
+				// if it's not an exception thrown by the getCache method, we rethrow it
+				if ($e->getCode() != self::EXCEPTION_CODE) {
+					throw $e;
+				}
+				// otherwise do nothing, try next driver
+			}
+		}
+		
+		if (!isset($cache) || !$cache instanceof AbstractCache) {
+			throw new \Exception('Unable to initialise any of the required drivers ("'.implode('", "', $drivers).'").');
+		}
+		
+		return $cache;
 	}
 	
 	/**
@@ -90,42 +121,6 @@ class CacheFactory
 	 */
 	public function driverExists($driver)
 	{
-		return isset($this->drivers);
+		return isset($this->drivers[$driver]);
 	}
-	
-	/**
-	 * Check if the given driver is supported by the current web server configuration
-	 *
-	 * @param string $driver
-	 * @return bool
-	 */
-	public function driverSupported($driver)
-	{
-		switch($driver)
-		{
-			case 'file':
-			case 'array':
-				return true;
-				break;
-			
-			case 'zendData':
-				return function_exists('zend_shm_cache_fetch');
-				break;
-			
-			case 'memcache':
-				return class_exists('Memcache');
-				break;
-			
-			case 'apc':
-				return function_exists('apc_fetch');
-				break;
-			
-			case 'xcache':
-				return function_exists('xcache_get');
-				break;
-		}
-		
-		return false;
-	}
-	
 }

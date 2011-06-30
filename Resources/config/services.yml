@@ -7,8 +7,8 @@ services:
 
     winzou_cache:
         factory_service: winzou_cache.factory
-        factory_method:  get
-        class:           %winzou_cache.internal.default_driver_class%
+        factory_method:  getCache
+        class:           %winzou_cache.driver.abstract%
         arguments:
             - %winzou_cache.options.default_driver%
 

@@ -40,17 +40,16 @@ class MemcacheCache extends AbstractCache
     private $_memcache;
 
     /**
-     * Constructor, set the memcache instance.
-     *
-     * @param Memcache $memcache
+     * {@inheritdoc}
      */
-    public function __construct(Memcache $memcache = null)
+    public function __construct(array $options = array())
     {
-        if (!$memcache instanceof Memcache) {
-            $memcache = new Memcache;
+		// Memcache instance is not required, we can create one
+        if (!isset($options['memcache']) || !$options['memcache'] instanceof Memcache) {
+            $options['memcache'] = new Memcache;
         }
 
-        $this->setMemcache($memcache);
+        $this->setMemcache($options['memcache']);
     }
 
     /**
@@ -130,4 +129,12 @@ class MemcacheCache extends AbstractCache
     {
         return $this->_memcache->delete($id);
     }
+	
+	/**
+     * {@inheritdoc}
+     */
+	public static function isSupported()
+	{
+		return class_exists('Memcache');
+	}
 }

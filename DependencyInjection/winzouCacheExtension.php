@@ -49,7 +49,7 @@ class winzouCacheExtension extends Extension
         
         // we check if the default_driver value is ok
         if (!isset($config['driver'][$config['options']['default_driver']])) {
-            throw new \InvalidArgumentException('The parameter winzou_book.options.default_driver[value="'.$config['options']['default_driver'].'"] is invalid.');
+            throw new \InvalidArgumentException('The driver "'.$config['options']['default_driver'].'" (set in winzou_book.options.default_driver) does not exist.');
         }
         $config['internal']['default_driver_class'] = $config['driver'][$config['options']['default_driver']];
         

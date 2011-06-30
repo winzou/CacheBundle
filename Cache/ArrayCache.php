@@ -83,4 +83,12 @@ class ArrayCache extends AbstractCache
         
         return true;
     }
+	
+	/**
+     * {@inheritdoc}
+     */
+	public static function isSupported()
+	{
+		return true;
+	}
 }

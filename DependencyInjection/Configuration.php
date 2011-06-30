@@ -43,6 +43,7 @@ class Configuration
                 ->arrayNode('driver')
                     ->addDefaultsIfNotSet()
                     ->children()
+					    ->scalarNode('abstract')->defaultValue('winzou\\CacheBundle\\Cache\\AbstractCache')->end()
                         ->scalarNode('apc')     ->defaultValue('winzou\\CacheBundle\\Cache\\ApcCache')     ->end()
                         ->scalarNode('array')   ->defaultValue('winzou\\CacheBundle\\Cache\\ArrayCache')   ->end()
                         ->scalarNode('file')    ->defaultValue('winzou\\CacheBundle\\Cache\\FileCache')    ->end()
@@ -54,8 +55,8 @@ class Configuration
                 ->arrayNode('options')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('cache_dir')->defaultValue('%kernel.cache_dir%/winzou_cache')->end()
-                        ->scalarNode('default_driver')->defaultValue('file')->end()
+                        ->scalarNode('cache_dir')     ->defaultValue('%kernel.cache_dir%/winzou_cache')->end()
+                        ->scalarNode('default_driver')->defaultValue('file')                           ->end()
                      ->end()
                 ->end()
             ->end();

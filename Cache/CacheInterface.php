@@ -63,4 +63,11 @@ interface CacheInterface
      * @return boolean TRUE if the cache entry was successfully deleted, FALSE otherwise.
      */
     function delete($id);
+	
+	/**
+     * Check if the CacheDriver is supported by the running configuration
+     * 
+     * @return boolean TRUE if supported, FALSE otherwise.
+     */
+    static function isSupported();
 }

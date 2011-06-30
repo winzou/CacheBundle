@@ -79,4 +79,12 @@ class ZendDataCache extends AbstractCache
     {
         return zend_shm_cache_delete($id);
     }
+	
+	/**
+     * {@inheritdoc}
+     */
+	public static function isSupported()
+	{
+		return function_exists('zend_shm_cache_fetch');
+	}
 }

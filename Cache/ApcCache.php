@@ -81,4 +81,12 @@ class ApcCache extends AbstractCache
     {
         return apc_delete($id);
     }
+	
+	/**
+     * {@inheritdoc}
+     */
+	public static function isSupported()
+	{
+		return function_exists('apc_fetch');
+	}
 }

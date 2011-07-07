@@ -52,7 +52,8 @@ If you want to define in only one place the driver you want to use, you will lik
     # and then $cache = $this->get('winzou_cache')
 
 You can now access the ApcCache with the `winzou_cache` service. And if you want to change the driver, you have to modify only one value in your config.yml.
-I you don't define the default_driver and use $this->get('winzou_cache'), then you are using the FileCache.
+
+If you don't define the default_driver and use $this->get('winzou_cache'), then you are using the FileCache.
 
 Raw access
 ----------

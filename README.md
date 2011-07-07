@@ -29,12 +29,14 @@ In your controller:
     if ($cache->contains('bar')) {
         $bar = $cache->fetch('bar');
     }
+    
+    $cache->delete('bar');
 
 See Cache\AbstractCache for all the available methods.
 
 Configuration
 -------------
-When using FileCache, if you don't want to store your cache files in `CACHE_DIR/winzou_cache` (default value), then define the absolute path in your config.yml:
+When using FileCache, if you don't want to store your cache files in `%kernel.cache_dir%/winzou_cache` (default value), then define the absolute path in your config.yml:
 
     winzou_cache:
         options:
@@ -49,23 +51,25 @@ If you want to define in only one place the driver you want to use, you will lik
     
     # and then $cache = $this->get('winzou_cache')
 
-You can now access the FileCache with the `winzou_cache` service. And if you want to change the driver, you have to modify only one value in your config.yml.
+You can now access the ApcCache with the `winzou_cache` service. And if you want to change the driver, you have to modify only one value in your config.yml.
+
+If you don't define the default_driver and use $this->get('winzou_cache'), then you are using the FileCache.
 
 Raw access
 ----------
 You can overwrite any option just by using the factory service. See these two very similar methods:
 
     $factory = $this->get('winzou_cache.factory');
-    $cache = $factory->get('file', array('cache_dir' => '/tmp/cache'));
+    $cache = $factory->getCache('file', array('cache_dir' => '/tmp/cache'));
 
 Or by defining your own service:
 
     your_cache:
         factory_service: winzou_cache.factory
         factory_method:  get
-        class:           %winzou_cache.driver.file%
+        class:           %winzou_cache.driver.abstract%
         arguments:
-            - file
-            - {'cache_dir': /tmp/cache }
+            - file                       # just modify this value to use another cache
+            - {'cache_dir': /tmp/cache } # you can omit this if you don't use FileCache or if the default value is ok for you
     
     # and then $cache = $this->get('your_cache')

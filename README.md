@@ -70,6 +70,6 @@ Or by defining your own service:
         class:           %winzou_cache.driver.abstract%
         arguments:
             - file                       # just modify this value to use another cache
-            - {'cache_dir': /tmp/cache } # you can omit this if you don't use FileCache or of the default value is ok for you
+            - {'cache_dir': /tmp/cache } # you can omit this if you don't use FileCache or if the default value is ok for you
     
     # and then $cache = $this->get('your_cache')

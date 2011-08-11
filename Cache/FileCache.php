@@ -71,7 +71,7 @@ class FileCache extends AbstractCache
      *
      * @param string $id
      */
-    private function getFileName($id)
+    protected function getFileName($id)
     {
         return $this->_cacheDir
             .DIRECTORY_SEPARATOR

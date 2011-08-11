@@ -60,6 +60,6 @@ class LifetimeFileCache extends FileCache
      */
     protected function _doSave($id, $data, $lifeTime = 0)
     {
-        return parent::_doSave($id, serialize(array('data' => $data, 'lt' => $lifeTime)));
+        return (bool) file_put_contents($this->getFileName($id), serialize(array('data' => $data, 'lt' => $lifeTime)));
     }
 }

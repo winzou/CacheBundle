@@ -46,7 +46,7 @@ class LifetimeFileCache extends FileCache
         
         $file = unserialize(file_get_contents($name)); 
         
-        if ((time() - @filemtime($file)) > $file['lt'])
+        if ((time() - @filemtime($file)) < $file['lt'])
         {
             $this->_doDelete($id);
             return false;

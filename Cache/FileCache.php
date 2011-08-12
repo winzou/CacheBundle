@@ -28,7 +28,7 @@ class FileCache extends AbstractCache
 {
     /** @var string $_cacheDir */
     private $_cacheDir;
-	
+    
     /** @var string $separator */
     private $_separator = '--s--';
 
@@ -37,7 +37,7 @@ class FileCache extends AbstractCache
      */
     public function __construct(array $options = array())
     {
-		// Cache directory is required
+        // Cache directory is required
         if (!isset($options['cache_dir'])) {
             throw new \InvalidArgumentException('The option "cache_dir" must be passed to the FileCache constructor.');
         }
@@ -77,7 +77,7 @@ class FileCache extends AbstractCache
             .DIRECTORY_SEPARATOR
             .str_replace(DIRECTORY_SEPARATOR, $this->_separator, $id);
     }
-	
+    
     /**
      * Get the cache id from a file name.
      *
@@ -130,12 +130,12 @@ class FileCache extends AbstractCache
     {
         return unlink($this->getFileName($id));
     }
-	
-	/**
+    
+    /**
      * {@inheritdoc}
      */
-	public static function isSupported()
-	{
-		return function_exists('file_put_contents');
-	}
+    public static function isSupported()
+    {
+        return function_exists('file_put_contents');
+    }
 }

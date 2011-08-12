@@ -75,8 +75,7 @@ class FileCache extends AbstractCache
     {
         return $this->_cacheDir
             .DIRECTORY_SEPARATOR
-            .str_replace(DIRECTORY_SEPARATOR, $this->_separator, $id)
-            .'.php';
+            .str_replace(DIRECTORY_SEPARATOR, $this->_separator, $id);
     }
 	
     /**
@@ -84,7 +83,7 @@ class FileCache extends AbstractCache
      *
      * @param string $file
      */
-    private function getKeyName($file)
+    protected function getKeyName($file)
     {
         return str_replace($this->_separator, DIRECTORY_SEPARATOR, substr(basename($file), 0, -4));
     }
@@ -105,7 +104,7 @@ class FileCache extends AbstractCache
      */
     protected function _doFetch($id)
     {
-        return include $this->getFileName($id);
+        return unserialize(file_get_contents($this->getFileName($id)));
     }
 
     /**
@@ -121,7 +120,7 @@ class FileCache extends AbstractCache
      */
     protected function _doSave($id, $data, $lifeTime = 0)
     {
-        return (bool) file_put_contents($this->getFileName($id), '<?php return '.var_export($data, true).';');
+        return (bool) file_put_contents($this->getFileName($id), serialize($data));
     }
 
     /**

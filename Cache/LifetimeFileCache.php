@@ -31,7 +31,7 @@ class LifetimeFileCache extends FileCache
      */
     protected function _doFetch($id)
     {
-        $data = unserialize(file_get_contents($this->getFileName($id))); 
+        $data = parent::_doFetch($id);
         return $data['data'];
     }
     
@@ -40,14 +40,14 @@ class LifetimeFileCache extends FileCache
      */
     protected function _doContains($id)
     {
-        $name = $this->getFileName($id);
-        if(! parent::_doContains($id))
+        if (!parent::_doContains($id)) {
             return false;
+        }
         
-        $file = unserialize(file_get_contents($name)); 
+        $name = $this->getFileName($id);
+        $file = parent::_doFetch($id);
         
-        if ((time() - @filemtime($file)) < $file['lt'])
-        {
+        if (time() - filemtime($name) > $file['lt']) {
             $this->_doDelete($id);
             return false;
         }
@@ -60,6 +60,6 @@ class LifetimeFileCache extends FileCache
      */
     protected function _doSave($id, $data, $lifeTime = 0)
     {
-        return (bool) file_put_contents($this->getFileName($id), serialize(array('data' => $data, 'lt' => $lifeTime)));
+        return parent::_doSave($id, array('data' => $data, 'lt' => $lifeTime), $lifeTime);
     }
 }

@@ -72,4 +72,24 @@ class LifetimeFileCache extends FileCache
         
         return ((time() - filemtime($filename)) < $content['lt']);
     }
+    
+    /**
+     * Delete cache entries where the id matches a PHP regular expressions
+     * @return array $deleted  Array of the deleted cache ids
+     */
+    public function deleteDeads()
+    {
+        $deleted = array();
+
+        $ids = $this->getIds();
+
+        foreach ($ids as $id) {
+            if ($this->isValidLife($id)) {
+                $this->_doDelete($id);
+                $deleted[] = $id;
+            }
+        }
+
+        return $deleted;
+    }
 }

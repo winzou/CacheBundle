@@ -44,10 +44,7 @@ class LifetimeFileCache extends FileCache
             return false;
         }
         
-        $name = $this->getFileName($id);
-        $file = parent::_doFetch($id);
-        
-        if (time() - filemtime($name) > $file['lt']) {
+        if (!$this->isValidLife($id)) {
             $this->_doDelete($id);
             return false;
         }
@@ -61,5 +58,18 @@ class LifetimeFileCache extends FileCache
     protected function _doSave($id, $data, $lifeTime = 0)
     {
         return parent::_doSave($id, array('data' => $data, 'lt' => $lifeTime), $lifeTime);
+    }
+    
+    /**
+     * Check is the lifetime is stil valid
+     * @param string $id
+     * @return bool
+     */
+    private function isValidLife($id)
+    {
+        $filename = $this->getFileName($id);
+        $content  = parent::_doFetch($id);
+        
+        return ((time() - filemtime($filename)) < $content['lt']);
     }
 }

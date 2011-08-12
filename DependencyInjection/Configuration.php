@@ -56,8 +56,9 @@ class Configuration
                 ->arrayNode('options')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('cache_dir')     ->defaultValue('%kernel.cache_dir%/winzou_cache')->end()
-                        ->scalarNode('default_driver')->defaultValue('lifetimefile')                   ->end()
+                        ->scalarNode('cache_dir_lifetime')->end()
+                        ->scalarNode('cache_dir')         ->defaultValue('%kernel.cache_dir%/winzou_cache')->end()
+                        ->scalarNode('default_driver')    ->defaultValue('lifetimefile')                   ->end()
                      ->end()
                 ->end()
             ->end();

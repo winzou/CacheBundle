@@ -53,6 +53,10 @@ class winzouCacheExtension extends Extension
         }
         $config['internal']['default_driver_class'] = $config['driver'][$config['options']['default_driver']];
         
+        // If the lifetime cache directory is not defined, we set it
+        $config['options']['cache_dir_lifetime'] = $config['options']['cache_dir'].DIRECTORY_SEPARATOR.'lifetime';
+        
+        // Set the parameters
         $this->bindParameter($container, 'winzou_cache', $config);
         
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));

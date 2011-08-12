@@ -26,7 +26,7 @@ services:
     winzou_cache.lifetimefile:
         class: %winzou_cache.driver.lifetimefile%
         arguments:
-            - {'cache_dir': %winzou_cache.options.cache_dir%}
+            - {'cache_dir': %winzou_cache.options.cache_dir_lifetime%}
 
     winzou_cache.memcache:
         class: %winzou_cache.driver.memcache%

@@ -1,0 +1,26 @@
+{
+    "name": "winzou/cache-bundle",
+    "type": "symfony-bundle",
+    "description": "Managing cache in sf2, multiple drivers (file, apc, memcache...)",
+    "keywords": ["cache", "apc", "memcache", "symfony", "bundle"],
+    "homepage": "https://github.com/devster/CacheBundle",
+    "license": "MIT",
+
+    "authors": [
+        {
+            "name": "winzou"
+        }
+    ],
+
+    "autoload": {
+        "psr-0": {
+            "winzou\\CacheBundle": ""
+        }
+    },
+
+    "target-dir": "winzou/CacheBundle",
+
+    "require": {
+        "php": ">=5.3.0"
+    }
+}

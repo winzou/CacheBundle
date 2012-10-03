@@ -1,5 +1,5 @@
 {
-    "name": "winzou/cache-bundle",
+    "name": "devster/cache-bundle",
     "type": "symfony-bundle",
     "description": "Managing cache in sf2, multiple drivers (file, apc, memcache...)",
     "keywords": ["cache", "apc", "memcache", "symfony", "bundle"],

@@ -6,6 +6,43 @@ What's that?
 winzouCacheBundle provides a simple cache management. Now you can use a cache system without reinventing it.
 It supports Apc, XCache, File, ZendData and Array.
 
+Installation
+-------------
+
+### 1. Add this bundle to your project:
+
+**Using composer**
+
+Add the following lines in your `composer.json` file:
+
+```
+"require": {
+    ...
+    "winzou/cache-bundle": "dev-master"
+}
+```
+
+Now, run composer to download the bundle:
+
+```bash
+$ composer update
+```
+
+### 2. Add this bundle to your application's kernel:
+
+```php
+<?php
+// app/AppKernel.php
+public function registerBundles()
+{
+  $bundles = array(
+      // ...
+      new winzou\CacheBundle\winzouCacheBundle(),
+      // ...
+  );
+}
+```
+
 Usage
 -----
 In your controller:

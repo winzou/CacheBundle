@@ -84,7 +84,7 @@ If you want to define in only one place the driver you want to use, you will lik
 
     winzou_cache:
         options:
-            default_driver: apc # default is "file"
+            default_driver: apc # default is "lifetimefile"
     
     # and then $cache = $this->get('winzou_cache')
 

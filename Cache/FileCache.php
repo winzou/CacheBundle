@@ -75,7 +75,8 @@ class FileCache extends AbstractCache
     {
         return $this->_cacheDir
             .DIRECTORY_SEPARATOR
-            .str_replace(DIRECTORY_SEPARATOR, $this->_separator, $id);
+            .str_replace(DIRECTORY_SEPARATOR, $this->_separator, $id)
+            .'.php';
     }
     
     /**

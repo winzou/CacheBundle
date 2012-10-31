@@ -85,7 +85,7 @@ class FileCache extends AbstractCache
      */
     protected function getKeyName($file)
     {
-        return str_replace($this->_separator, DIRECTORY_SEPARATOR, substr(basename($file), 0, -4));
+        return str_replace($this->_separator, DIRECTORY_SEPARATOR, basename($file));
     }
     
     /**

@@ -134,7 +134,7 @@ class FileCache extends AbstractCache
             return unlink($file);
         }
 
-        return false;
+        return true;
     }
     
     /**

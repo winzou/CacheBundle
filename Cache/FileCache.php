@@ -127,8 +127,14 @@ class FileCache extends AbstractCache
      * {@inheritdoc}
      */
     protected function _doDelete($id)
-    {
-        return unlink($this->getFileName($id));
+    {   
+        $file = $this->getFileName($id);
+
+        if (file_exists($file)) {
+            return unlink($file);
+        }
+
+        return false;
     }
     
     /**

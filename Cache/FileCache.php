@@ -55,7 +55,7 @@ class FileCache extends AbstractCache
             throw new \InvalidArgumentException('The parameter $cacheDir must not be empty.');
         }
         
-        if (!is_dir($cacheDir) && !mkdir($cacheDir)) {
+        if (!is_dir($cacheDir) && !mkdir($cacheDir, 0777, true)) {
             throw new \RuntimeException('Unable to create the directory "'.$cacheDir.'"');
         }
         

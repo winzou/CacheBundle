@@ -72,7 +72,12 @@ abstract class AbstractCache implements CacheInterface
      */
     public function save($id, $data, $lifeTime = 0)
     {
-        return $this->_doSave($this->_getNamespacedId($id), $data, $lifeTime);
+        $id = $this->_getNamespacedId($id);
+        if (strpos($id, '*') !== false) {
+            throw new \InvalidArgumentException('The cache $id should not contain a wildcard * when saving');
+        }
+
+        return $this->_doSave($id, $data, $lifeTime);
     }
 
     /**

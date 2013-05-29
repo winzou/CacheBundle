@@ -70,7 +70,7 @@ class LifetimeFileCache extends FileCache
         $filename = $this->getFileName($id);
         $content  = parent::_doFetch($id);
         
-        return ((time() - filemtime($filename)) < $content['lt']);
+        return ($content['lt']===0) || ((time() - filemtime($filename)) < $content['lt']);
     }
     
     /**

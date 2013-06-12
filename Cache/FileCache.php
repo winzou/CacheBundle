@@ -32,6 +32,13 @@ class FileCache extends AbstractCache
     /** @var string $separator */
     private $_separator = '--s--';
 
+     /** @var string last id fetched */
+    private $_lastId = null;
+    
+    /** @var string last data fetched */
+    private $_lastData = null;
+
+    
     /**
      * {@inheritdoc}
      */
@@ -104,7 +111,14 @@ class FileCache extends AbstractCache
      */
     protected function _doFetch($id)
     {
-        return unserialize(file_get_contents($this->getFileName($id)));
+        //LifetimeFileCache will perform a fetch during contains(), so by
+        //retaining that data we can greatly speedup the subsequent fetch()
+        if ($id != $this->_lastId) {
+            $this->_lastId=$id;
+            $this->_lastData=unserialize(file_get_contents($this->getFileName($id)));
+        }
+        
+        return $this->_lastData;
     }
 
     /**
@@ -120,6 +134,8 @@ class FileCache extends AbstractCache
      */
     protected function _doSave($id, $data, $lifeTime = 0)
     {
+        $this->_lastId=$id;
+        $this->_lastData=$data;
         return (bool) file_put_contents($this->getFileName($id), serialize($data));
     }
 
@@ -127,12 +143,17 @@ class FileCache extends AbstractCache
      * {@inheritdoc}
      */
     protected function _doDelete($id)
-    {   
+    {
         $file = $this->getFileName($id);
 
         if (file_exists($file)) {
             return unlink($file);
         }
+        if ($id == $this->_lastId) {
+            $this->_lastId=null;
+            $this->_lastData=null;
+        }
+        
 
         return true;
     }

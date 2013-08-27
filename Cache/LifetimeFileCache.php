@@ -84,7 +84,7 @@ class LifetimeFileCache extends FileCache
         $ids = $this->getIds();
 
         foreach ($ids as $id) {
-            if ($this->isValidLife($id)) {
+            if (!$this->isValidLife($id)) {
                 $this->_doDelete($id);
                 $deleted[] = $id;
             }

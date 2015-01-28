@@ -1,6 +1,8 @@
 winzouCacheBundle
 ============
 
+#### Bundle is deprecated. Use https://github.com/doctrine/DoctrineCacheBundle instead.
+
 What's that?
 --------------
 winzouCacheBundle provides a simple cache management. Now you can use a cache system without reinventing it.
